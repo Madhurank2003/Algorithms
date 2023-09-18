@@ -1,0 +1,95 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define SIZE 5
+struct Stack{
+    int *arr;
+    int top;
+};
+
+typedef struct Stack stack;
+
+void push(stack*s ,int ele){
+    if(s->top==SIZE-1){
+        printf("Stack OverFlow!!\n");
+        return;
+    }
+    s->top = s->top + 1;
+    s->arr[s->top] = ele;
+    return;
+}
+
+void pop(stack* s){
+    if(s->top==-1){
+        printf("Stack UnderFlow!!\n");
+        return;
+    }
+    s->top = s->top-1;
+    return;
+}
+
+int topmost(stack*s){
+    if(s->top==-1){
+        return -1;
+    }
+    return s->arr[s->top];
+}
+void display(stack* s){
+    if(s->top==-1){
+        printf("Stack is Empty\n");
+        return;
+    }
+    printf("Stack Contains : \n");
+    for(int i=s->top;i>=0;i--){
+        printf("%d\n",s->arr[i]);
+    }
+    printf("\n");
+}
+
+
+void pushdown(stack* s,int ele){
+    if(s->top==-1){
+        push(s,ele);
+        return;
+    }
+    int topper = topmost(s);
+    pop(s);
+    pushdown(s,ele);
+    push(s,topper);
+    return;
+    
+}
+void reverse(stack*s){
+    if(s->top==-1){
+        return;
+    }
+    int ele = topmost(s);
+    pop(s);
+    reverse(s);
+    pushdown(s,ele);
+    
+    return;
+    
+}
+int main(){
+    printf("---------Stacks----------\n");
+    stack s;
+    s.top=-1;
+    s.arr = (int*)malloc(sizeof(int)*SIZE);
+    int choice,ele;
+    do{
+        printf("Enter Your Choice\n");
+        printf("1.Push\n2.Pop\n3.Reverse\n4.Display\n5.Exit\n");
+        scanf("%d",&choice);
+        switch(choice){
+            case 1 : printf("Enter the Element\n");
+                    scanf("%d",&ele);
+                    push(&s,ele);
+                    break;
+            case 2 : pop(&s);break;
+            case 3 : reverse(&s);printf("Stack Reversed!\n");break;
+            case 4 : display(&s);break;
+            case 5 : printf("End of Stacks\n");break;
+            default : printf("Invalid Choice\n");break;
+        }
+    }while(choice!=5);
+}
