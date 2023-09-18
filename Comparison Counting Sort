@@ -1,0 +1,36 @@
+// Sorting Using ComparisonCounting
+#include<bits/stdc++.h>
+using namespace std;
+void sort(vector<int>&arr){
+    int n = arr.size();
+    vector<int>count(n,0);
+    vector<int> res(n);
+    for(int i=0;i<n-1;i++){
+        for(int j=i+1;j<n;j++){
+            if(arr[i]<arr[j]){
+                count[j]++;
+            }
+            else{
+                count[i]++;
+            }
+        }
+    }
+    for(int i=0;i<n;i++){
+        res[count[i]] = arr[i];
+    }
+    for(int i=0;i<n;i++){
+        arr[i] = res[i];
+    }
+}
+int main(){
+    int n;
+    cout<<"Enter the Number of Elements\n";
+    cin>>n;
+    cout<<"Enter the Elements\n";
+    vector<int>arr(n);
+    for(int i=0;i<n;i++)    cin>>arr[i];
+    sort(arr);
+    cout<<"Sorted Array : \n";
+    for(int i=0;i<n;i++)    cout<<arr[i]<<" ";
+    return 0;
+}
