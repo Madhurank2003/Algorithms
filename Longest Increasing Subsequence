@@ -1,0 +1,46 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    int n;
+    cout<<"Enter the Number of Elements\n";
+    cin>>n;
+    vector<int> arr(n);
+    for(int i=0;i<n;i++)    cin>>arr[i];
+    vector<int> dp(n,1);
+    vector<int> hash(n,0);
+    for(int i=0;i<n;i++){
+        hash[i]=i;
+    }
+    int maxi=0;
+    int len=1;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<i;j++){
+            if(arr[i]>arr[j]){
+                if(1+dp[j]>dp[i]){
+                    dp[i] = 1 + dp[j];
+                    hash[i] = j;
+                }
+                if(dp[i]>len){
+                    len = dp[i];
+                    maxi=i;
+                }
+            }
+        }
+    }
+    
+    vector<int> lis;
+    int index=maxi;
+    while(index!=hash[index]){
+        lis.push_back(arr[index]);
+        index = hash[index];
+    }
+    lis.push_back(arr[index]);
+    reverse(begin(lis),end(lis));
+    
+    cout<<"Length of Longest Increasing Subsequence "<<len<<endl;
+    for(int x : lis){
+        cout<<x<<" ";
+    }
+    cout<<endl;
+    return 0;
+}
