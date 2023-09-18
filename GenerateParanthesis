@@ -1,0 +1,35 @@
+#include<bits/stdc++.h>
+using namespace std;
+void generate(int open, int close, int n, string build, vector<string>&res){
+    if(open>n)  return;
+    if(open==close && open==n){
+        res.push_back(build);
+        return;
+    }
+    if(open==close){
+        generate(open+1,close,n,build+'(',res);
+    }
+    else if(open>close){
+        generate(open+1,close,n,build+'(',res);
+        generate(open,close+1,n,build+')',res);
+    }
+    else{
+        generate(open,close+1,n,build+')',res);
+    }
+}
+
+int main(){
+    int n;
+    cout<<"Generate Paranthesis\n";
+    cout<<"Enter the Value of N \n";
+    cin>>n;
+    vector<string> res;
+    string build = "";
+    generate(0,0,n,build,res);
+    cout<<"The Paranthesis are\n";
+    for(auto str : res){
+        cout<<str<<endl;
+    }
+    cout<<"Total Combinations : "<<res.size()<<endl;
+    return 0;
+}
