@@ -1,0 +1,66 @@
+#include<bits/stdc++.h>
+using namespace std;
+vector<vector<string>> res;
+bool isValid(vector<string>&grid, int n, int x, int y){
+    for(int i=0;i<=x;i++){
+        if(grid[i][y]=='Q') return false;
+    }
+    int i=x-1,j=y+1;
+    while(i>=0 && j<n){
+        if(grid[i][j]=='Q') return false;
+        i--;
+        j++;
+    }
+    i=x-1,j=y-1;
+    while(i>=0 && j>=0){
+        if(grid[i][j]=='Q') return false;
+        i--;
+        j--;
+    }
+    return true;
+}
+void solve(vector<string>&grid,int n, int x){
+    if(x==n){
+        res.push_back(grid);
+        return;
+    }
+    for(int i=0;i<n;i++){
+        if(isValid(grid,n,x,i)){
+            grid[x][i] = 'Q';
+            solve(grid,n,x+1);
+            grid[x][i] = '.';
+        }
+    }
+}
+void NQueen(int n){
+    vector<string> grid(n);
+    for(int i=0;i<n;i++){
+        string row="";
+        for(int j=0;j<n;j++){
+            row+='.';
+        }
+        grid[i] = row;
+    }
+    solve(grid,n,0);
+    return;
+}
+int main(){
+    int n;
+    cout<<"Enter the Value of N : \n";
+    cin>>n;
+    NQueen(n);
+    if(res.size()==0){
+        cout<<"There are No Valid Arragements!!\n";
+    }
+    else{
+        cout<<"The Valid Arrangements are : \n";
+        for(int i=0;i<res.size();i++){
+            cout<<"Arrangement "<<i+1<<" \n";
+            for(auto x : res[i]){
+                cout<<x<<endl;
+            }
+            cout<<endl;
+        }
+    }
+    return 0;
+}
