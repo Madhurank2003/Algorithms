@@ -1,0 +1,33 @@
+//Distribution  Sort
+#include<bits/stdc++.h>
+using namespace std;
+void sort(vector<int>&arr, int l, int r){
+    int n = arr.size();
+    vector<int>distribution(r-l+1,0);
+    for(int i=0;i<n;i++)    distribution[arr[i]-l]++;
+    for(int i=1;i<(r-l+1);i++){
+        distribution[i]+=distribution[i-1];
+    }
+    vector<int> res(n);
+    for(int i=0;i<n;i++){
+        int j = arr[i]-l;
+        res[distribution[j]-1] = arr[i];
+        distribution[j]--;
+    }
+    for(int i=0;i<n;i++)    arr[i] = res[i];
+    return;
+}
+int main(){
+    int n,l,r;
+    cout<<"Enter the Number of Elements\n";
+    cin>>n;
+    cout<<"Enter the Range of the Elemets\n";
+    cin>>l>>r;
+    vector<int>arr(n);
+    cout<<"Enter the Elements of Array\n";
+    for(int i=0;i<n;i++)    cin>>arr[i];
+    sort(arr,l,r);
+    cout<<"Sorted Array is :\n";
+    for(int i=0;i<n;i++)    cout<<arr[i]<<" ";
+    return 0;
+}
