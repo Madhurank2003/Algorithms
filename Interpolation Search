@@ -1,0 +1,23 @@
+#include<bits/stdc++.h>
+using namespace std;
+int interpolationSearch(int arr[],int key,int low,int high){
+    if(low<high && arr[low]<=key && arr[high]>=key){
+        int pos = low + (high-low)/(arr[high]-arr[low])*(key-arr[low]);
+        if(arr[pos]==key){
+            return pos;
+        }
+        if(arr[pos]<key){
+            return interpolationSearch(arr,key,pos+1,high);
+        }
+        else return interpolationSearch(arr,key,low,pos-1);
+    }
+    if(high==low && arr[low]==key)  return low;
+    return -1;
+}
+int main(){
+    int arr[] = {1,5,7,10,12};
+    int key = 12;
+    int res = interpolationSearch(arr,key,0,4);
+    cout<<res<<endl;
+    return 0;
+}
