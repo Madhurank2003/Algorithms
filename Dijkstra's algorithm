@@ -1,0 +1,75 @@
+// Dijkstra's algorithm
+#include<bits/stdc++.h>
+using namespace std;
+struct item{
+    int u,w;
+};
+
+int main(){
+    int n,m,s;
+    cout<<"Enter the Number of Vertices\n";
+    cin>>n;
+    cout<<"Enter the Number of Edges\n";
+    cin>>m;
+    cout<<"Enter the Source Vertx\n";
+    cin>>s;
+    vector<item> adj[n];
+    cout<<"Enter the Edeges Along with Weights\n";
+    while(m--){
+        int u,v,w;
+        cin>>u>>v>>w;
+        adj[u].push_back({v,w});
+        adj[v].push_back({u,w});
+    }
+    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> q;
+    q.push({0,s});
+    vector<int> distances(n,INT_MAX);
+    distances[s]=0;
+    vector<int> parent(n,-1);
+    for(int i=0;i<n;i++)    parent[i]=i;
+    while(!q.empty()){
+        auto curr = q.top();
+        q.pop();
+        int currWeight = curr.first;
+        int node = curr.second;
+        for(item edge : adj[node]){
+            int neighbour = edge.u;
+            int Weight = edge.w;
+            if(distances[neighbour]>currWeight+Weight){
+                parent[neighbour] = node;
+                distances[neighbour] = currWeight+Weight;
+                q.push({distances[neighbour],neighbour});
+            }
+        }
+    }
+    cout<<"The Shortest Path from Source to All Destination Nodes \n";
+    for(int i=0;i<n;i++){
+        cout<<distances[i]<<" ";
+    }
+    cout<<endl;
+    for(int i=0;i<n;i++){
+        if(i==s)    continue;
+        stack<int> st;
+        int node = i;
+        while(parent[node]!=node){
+            st.push(node);
+            node = parent[node];
+        }
+        st.push(node);
+        string path = "";
+        while(st.size()>1){
+            path+=to_string(st.top());
+            st.pop();
+            path+=" -> ";
+        }
+        if(st.size()){
+            path+=to_string(st.top());
+            st.pop();
+        }
+        cout<<path<<endl;
+    }
+    
+    return 0;
+}
+
+
