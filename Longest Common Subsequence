@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    cout<<"Longtest Common Subsequence\n";
+    cout<<"Enter Two Strings\n";
+    string s,t;
+    cin>>s>>t;
+    int n = s.size();
+    int m =t.size();
+    int dp[n+1][m+1];
+    memset(dp,0,sizeof(dp));
+    for(int i=n-1;i>=0;i--){
+        for(int j=m-1;j>=0;j--){
+            if(s[i]==t[j]){
+                dp[i][j]= 1 + dp[i+1][j+1];
+            }
+            else{
+                dp[i][j] = max(dp[i+1][j],dp[i][j+1]);
+            }
+        }
+    }
+    int len = dp[0][0];
+    int i=0,j=0;
+    string lcs = "";
+    while(i<n && j<m){
+        if(s[i]==t[j]){
+            lcs+=s[i];
+            i++;
+            j++;
+        }
+        else{
+            if(dp[i+1][j]>dp[i][j+1]){
+                i++;
+            }
+            else{
+                j++;
+            }
+        }
+    }
+    cout<<"Length of Longest Common Subsequence : "<<len<<endl;
+    cout<<"String  :  "<<lcs<<endl;
+    return 0;
+}
+
