@@ -1,0 +1,26 @@
+#include<bits/stdc++.h>
+using namespace std;
+int cost=0;
+void revsort(int arr[],int n){
+    for(int i=0;i<n;i++){
+        int mini = i;
+        int j=i;
+        while(j<n){
+            if(arr[j]<arr[mini]){
+                mini = j;
+            }
+            j++;
+        }
+        cost+=(mini-i+1);
+        reverse(arr+i,arr+mini+1);
+    }
+    
+}
+int main(){
+    int arr[] = {7,6,5,4,3,2,1};
+    revsort(arr,7);
+    for(int i=0;i<7;i++)    cout<<arr[i]<<" ";
+    cout<<endl;
+    cout<<cost<<endl;
+    return 0;
+}
