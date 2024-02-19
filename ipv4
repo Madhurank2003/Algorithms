@@ -1,0 +1,58 @@
+#include<stdio.h>
+#include<string.h>
+#include<ctype.h>
+void printNetwork(int blocks[], int end){
+    printf("Network Id : ");
+    for(int i=0;i<end;i++){
+        printf("%d",blocks[i]);
+        if(i==end-1)  printf("\n");
+        else printf(".");
+    }
+    return;
+}
+
+void printHost(int blocks[], int start){
+    printf("Host Id : ");
+    for(int i=start;i<4;i++){
+        printf("%d",blocks[i]);
+        if(i==3)    printf("\n");
+        else printf(".");
+    }
+    return;
+}
+int main(){
+    char ipv4[15];
+    printf("Enter a Valid IPv4 Address\n");
+    scanf("%s",ipv4);
+    int blocks[4] = {0};
+    int currBlock=0;
+    for(int i=0;i<(int)strlen(ipv4);i++){
+        if(ipv4[i]=='.')    currBlock++;
+        else{
+            blocks[currBlock] = (blocks[currBlock]*10 + (ipv4[i]-'0'));
+        }
+    }
+    printf("The Given Ipv4 Address belongs to Class : ");
+    if(blocks[0]>=0 && blocks[0]<=127){
+        printf("A\n");
+        printNetwork(blocks,1);
+        printHost(blocks,1);
+    }
+    else if(blocks[0]>=128 && blocks[0]<=191){
+        printf("B\n");
+        printNetwork(blocks,2);
+        printHost(blocks,2);
+    }
+    else if(blocks[0]>=192 && blocks[0]<=223){
+        printf("C\n");
+        printNetwork(blocks,3);
+        printHost(blocks,3);
+    }
+    else if(blocks[0]>=224 && blocks[0]<=239){
+        printf("D\n");
+    }
+    else{
+        printf("E\n");
+    }
+    return 0;
+}
