@@ -1,0 +1,47 @@
+#include<stdio.h>
+void printData(int* bits){
+    int j=7;
+    for(int i=0;i<4;i++){
+        printf("%d ",bits[j--]);
+        if(j==4)    j--;
+    }
+    printf("\n");
+}
+int main(){
+    int code[8];
+    int j=7;
+    for(int i=0;i<4;i++){
+        scanf("%d",&code[j--]);
+        if(j==4)    j--;
+    }
+    code[1] = code[3]^code[5]^code[7];
+    code[2] = code[3]^code[6]^code[7];
+    code[4] = code[5]^code[6]^code[7];
+    printf("The CodeWord Sent is : ");
+    for(int i=7;i>0;i--){
+        printf("%d ",code[i]);
+    }
+    printf("\n");
+    printf("Enter the CodeWord Recieved : \n");
+    int decode[8];
+    for(int j=7;j>0;j--){
+        scanf("%d",&decode[j]);
+    }
+    int p1 = decode[3]^decode[5]^decode[7];
+    int p2 = decode[3]^decode[6]^decode[7];
+    int p4 = decode[5]^decode[6]^decode[7];
+    if(decode[1]==p1 && decode[2]==p2 && decode[4]==p4){
+        printf("No Error Detected\n");
+        printData(decode);
+    }
+    else{
+        p1 = (p1==decode[1])?0:1;
+        p2 = (p2==decode[2])?0:1;
+        p4 = (p4==decode[4])?0:1;
+        int errorBit = (p1*1 + p2*2 + p4*4);
+        decode[errorBit] = 1-decode[errorBit];
+        printf("Error Detected and Corrected at %d bit\n",errorBit);
+        printData(decode);
+    }
+    return 0;
+}
