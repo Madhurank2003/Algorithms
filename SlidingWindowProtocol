@@ -1,0 +1,58 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+int main(){
+    int n,window_size;
+    printf("Enter the number of data stream bits\n");
+    scanf("%d",&n);
+    int stream[n];
+    printf("Enter the data stream\n");
+    for(int i=0;i<n;i++)    scanf("%d",&stream[i]);
+    printf("Enter the sender window size : \n");
+    scanf("%d",&window_size);
+    int i=0;
+    printf("Go Back N ARQ\n");
+    while(i<n){
+        int j=i;
+        printf("Current Window\n");
+        while(j<n && j-i+1<=window_size){
+            printf("%d ",stream[j++]);
+        }
+        printf("\n");
+        j=i;
+        while(j<n && j-i+1<=window_size){
+            int decide = rand()%2;
+            if(decide==1){
+                printf("Ack Recieved for Packed %d\n",stream[j]);
+                j++;
+            }
+            else{
+                printf("Error Transimitting packet %d\n",stream[j]);
+                printf("Retransmitting Entire Window\n");
+                j=i;
+            }
+        }
+        i=j;
+        printf("\n");
+    }
+    printf("Selective Repeat ARQ\n");
+    i=0;
+    while(i<n){
+        int j=i;
+        printf("Current Window\n");
+        while(j<n && j-i+1<=window_size){
+            printf("%d ",stream[j++]);
+        }
+        printf("\n");
+        int decide = rand()%2;
+        if(decide==1){
+            printf("Ack recieved for packet %d\n",stream[i]);
+            i++;
+        }
+        else{
+            printf("Error Transmitting packet %d\n",stream[i]);
+            printf("Retransmitting packet %d\n",stream[i]);
+        }
+    }
+    return 0;
+}
